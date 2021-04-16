@@ -64,7 +64,16 @@
 							<label for="institution"><span style="color:red">*</span>Name of Institution</label>
 							<input required minlength="3" class="form-control" id="institution" type="text">
 						</div>
+						<div class="form-group">
+							<label for="accomodation"><span style="color:red">*</span>The event is for two days. Can you find accomodation for yourself?</label>
+							<select id="accomodation" required class="form-control">
+								<option value="no">No, I cannot</option>
+								<option value="yes">Yes, I can accomodate myself</option>
+							</select>
+						</div>
 						<!-- <div class="form-group"> -->
+
+							<br>
 							<input required minlength="3" type="submit" value="REGISTER" class="btn btn-success">
 							<br>
 							<small>Payment secured by <a href="https://paystack.com" target="_blank">paystack.com</a> </small>
@@ -120,7 +129,7 @@
 
 <script>
 // Set the date we're counting down to
-var countDownDate = new Date("Apr 21, 2021 15:37:25").getTime();
+var countDownDate = new Date("May 19, 2021 15:37:25").getTime();
 
 // Update the count down every 1 second
 var x = setInterval(function() {
@@ -156,7 +165,8 @@ var x = setInterval(function() {
 
 function payNow(e){
 	e.preventDefault()
-	
+	var amount = 450000
+	if (document.getElementById('accomodation').value === 'yes') amount = 300000
     var handler = PaystackPop.setup({
       key: 'pk_live_c46748ab3221e7a09f5b6e684f3c605326a59067',
       // key: 'pk_test_36b4c61923cf364467dc611283c7cbc54a1d0f6a',
@@ -164,7 +174,7 @@ function payNow(e){
       firstname: document.getElementById('fname').value || 'NO_NAME',
       lastname: document.getElementById('lname').value || 'NO_NAME',
       phone: document.getElementById('phone').value || '+2349031514346',
-      amount: 450000,
+      amount: amount,
       currency: "NGN",
       ref: 'YES_'+Math.floor((Math.random() * 1000000000) + 1),
       metadata: {
