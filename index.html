@@ -18,7 +18,8 @@
 			background-image: url('assets_files/bg.jpg');
 		}
 	</style>
-	<script src="https://js.paystack.co/v1/inline.js"></script>
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+	<!-- <script src="https://js.paystack.co/v1/inline.js"></script> -->
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark" id="mainNav">
@@ -163,7 +164,7 @@ var x = setInterval(function() {
 // 	return true;
 // }
 
-function payNow(e){
+function payNowPaystack(e){
 	e.preventDefault()
 	var amount = 450000
 	if (document.getElementById('accomodation').value === 'yes') amount = 300000
@@ -198,5 +199,32 @@ function payNow(e){
     return true
   }
 
+  function payNow(e) {
+    e.preventDefault()
+	var amount = 4500
+	if (document.getElementById('accomodation').value === 'yes') amount = 3000
+
+    FlutterwaveCheckout({
+      public_key: "FLWPUBK-c0e16cb8f39d6799588259d5fc146dfc-X",
+      tx_ref: 'aidapay_' + new Date().getTime() + '' + Math.random().toString(36).slice(2) + '' + Math.floor(Math.random() * 100),
+      amount: amount,
+      currency: "NGN",
+      country: "NG",
+      payment_options: "card,mobilemoney,ussd",
+      customer: {
+        email: document.getElementById('email').value,
+        phone_number: document.getElementById('phone').value || '+2349031514346',
+        name: document.getElementById('fname').value + ' ' +document.getElementById('lname').value,
+      },
+      callback: function (data) { // specified callback function
+      	$("#myModal").modal()
+        // console.log(data);
+      },
+      meta: [{
+          metaname: 'institution',
+          metavalue: document.getElementById('institution').value,
+        }],
+    });
+  }
 </script>
 	</html>
